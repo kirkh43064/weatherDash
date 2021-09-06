@@ -7,7 +7,15 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.27/moment-timezone-with-data.js"></script>  
+ 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.27/moment-timezone-utils.js"></script>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
         <link rel="stylesheet" href="./assets/css/style.css">
 
@@ -32,11 +40,9 @@
 
                             <form class="form-inline pb-2">
 
-                                <input type="text" class="form-control mr-2" id="searchInput">
+                                <input type="text" class="form-control" id="searchInput">
 
-                                <button type="submit" class="btn btn-primary" id="searchBtn">
-                                    <i class=""></i>
-                                </button>
+                                <button class="btn btn-primary" type="submit"  id="searchBtn">Submit</button>
 
                             </form>
           
@@ -52,18 +58,18 @@
 
                 </div>
           
-                <div class="col-lg-8">
-                    <!-- display current weather -->
-                    <div class="row" id="currentConditions"></div>
+            <div class="col-lg-8">
+                <!-- show current conditions -->
+                <div class="row" id="currentConditions"></div>
           
-                    <!-- display future cast -->
-                    <div class="row" id="5DayForecast">
+                <!-- show the 5 day forecast -->
+                <div class="row" id="5DayForecast">
 
-                        <div class="card-deck w-100"></div>
+                <div class="card-deck w-100"></div>
 
-                    </div>
-                  
                 </div>
+                  
+            </div>
 
             </div>
 

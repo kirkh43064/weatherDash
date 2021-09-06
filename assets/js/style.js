@@ -22,16 +22,17 @@ let country = "";
 let searchedCities = [];
 
 
-var getSeachedCities = JSON.parse(localStorage.getItem("searched-cities"));
+let getSeachedCities = JSON.parse(localStorage.getItem("searchedCities"));
+
 if (getSeachedCities !== null) {
-  getSeachedCities.forEach(function(city) {city.toUpperCase();});
-  listOfSearchedCities = getSeachedCities;  
+    getSeachedCities.forEach(function(city) {city.toUpperCase();});
+    searchedCities = getSeachedCities;  
 }
 
 $(document).ready(function(){
-  displayCities(listOfSearchedCities);
-  if (getSeachedCitiesFromLS !== null) {
-    var lastCity = listOfSearchedCities[0];
+  displayCities(searchedCities);
+  if (getSeachedCities !== null) {
+    let lastCity = searchedCities[0];
     searchCity(lastCity);
   }
 });
@@ -109,12 +110,6 @@ function getColorCodeForUVIndex(uvIndex) {
       colorcode = "#7f00ff";
     }
     return colorcode;
-}
-
-function clearWeatherInfo() {
-    $("#current-weather-conditions").empty();
-    $("#card-deck-title").remove();
-    $(".card-deck").empty();
 }
 
 function searchCity(cityName){
@@ -195,7 +190,13 @@ function searchCity(cityName){
 
 }
 
-function resetGlobalVariables() {
+function clearWeatherInfo() {
+    $("#currentConditions").empty();
+    $("#card-deck-title").remove();
+    $(".card-deck").empty();
+}
+
+function resetVariables() {
     city = "";
     currentDate = "";
     tempF = "";
@@ -217,26 +218,26 @@ function resetGlobalVariables() {
 }
 
 
-$("#search-btn").on("click", function(event) {
+$("#searchBtn").on("click", function(event) {
     event.preventDefault();
-    clearDisplayedWeather()
+    clearWeatherInfo()
     resetVariables()
-    var cityName = $("input").val().toUpperCase().trim();
+    let cityName = $("searchInput").val().toUpperCase().trim();
     $("#searchInput").val("");
     searchCity(cityName);
   
-    if (cityName !== ""&& listOfSearchedCities[0] !== cityName) {
-      listOfSearchedCities.unshift(cityName);
-      localStorage.setItem("searched-cities", JSON.stringify(listOfSearchedCities));
-      if (listOfSearchedCities.length === 1) {
-        $("#searched-cities-card").removeClass("hide");
+    if (cityName !== ""&& searchedCities[0] !== cityName) {
+      searchedCities.unshift(cityName);
+      localStorage.setItem("searched-cities", JSON.stringify(searchedCities));
+      if (searchedCities.length === 1) {
+        $("#searchedCities").removeClass("hide");
       }
       
-      console.log($("ul#searched-cities-list a").length);
-      if ($("ul#searched-cities-list a").length >= 5) {
-        ($("ul#searched-cities-list a:eq(4)").remove());
+      console.log($("ul#citiesList a").length);
+      if ($("ul#citiesList a").length >= 5) {
+        ($("ul#citiesList a:eq(4)").remove());
       }
-      $("#searched-cities-list").prepend(`<a href="#" class="list-group-item" style="text-decoration: none; color: black;">
+      $("#citiesList").prepend(`<a href="#" class="list-group-item" style="text-decoration: none; color: black;">
       <li>${cityName}</li>
       </a>`);
     }
@@ -244,8 +245,8 @@ $("#search-btn").on("click", function(event) {
   
   $(document).on("click", ".list-group-item", function() {
     var cityName = $(this).text();
-    clearDisplayedWeatherInfo();
-    resetGlobalVariables();
+    clearWeatherInfo();
+    resetVariables();
     searchCity(cityName);
   });
   
