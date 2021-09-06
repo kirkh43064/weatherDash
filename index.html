@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Weather Dashboard</title>
 
+        <meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+        <link rel="stylesheet" href="./assets/css/style.css">
+
+    </head>
+
+    <body>
+        <header class="jumbotron jumbotron-fluid bg-dark text-white">
+            <h2 class="text-center">Weather Dashboard</h2>
+        </header>
+
+        <main class="container">
+
+            <div class="row">
+                <!-- card for search button and displaying searched cities name -->
+                <div class="col-lg-4">
+
+                    <div class="card" id="searchCities">
+
+                        <div class="card-header"> 
+
+                            <h4>Search for a City:</h4>
+
+                            <form class="form-inline pb-2">
+
+                                <input type="text" class="form-control mr-2" id="searchInput">
+
+                                <button type="submit" class="btn btn-primary" id="searchBtn">
+                                    <i class=""></i>
+                                </button>
+
+                            </form>
+          
+                            <div class="card hide" id="searchedCities">
+
+                                <ul class="list-group list-group-flush" id="citiesList"></ul>
+
+                            </div>
+
+                        </div>
+
+                    </div> 
+
+                </div>
+          
+                <div class="col-lg-8">
+                    <!-- display current weather -->
+                    <div class="row" id="currentConditions"></div>
+          
+                    <!-- display future cast -->
+                    <div class="row" id="5DayForecast">
+
+                        <div class="card-deck w-100"></div>
+
+                    </div>
+                  
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer>
+            
+        </footer>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        <!-- Bootstrap --> 
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+        <!-- moment.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+        <!-- Custom Script -->
+        <script src="assets/js/script.js"></script>
+    </body>
+
+</html>
