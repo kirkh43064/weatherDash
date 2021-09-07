@@ -53,7 +53,7 @@ function displayCurrentWeather() {
     cardDiv.append(temperatureEl);
     cardDiv.append(humidityEl);
     cardDiv.append(windEl);
-    cardDiv.append(uvIndexEl);
+    cardDiv.append(UVIndexEl);
     $("#currentConditions").append(cardDiv);
 }
 
@@ -80,12 +80,12 @@ function displayDayForeCast() {
 }
 
 function displayCities(citiesList) {
-    $("#searched-cities-card").removeClass("hide");
+    $("#searchedCities").removeClass("hide");
     let count = 0;
     citiesList.length > 5 ? count = 5 : count = citiesList.length
     for (let i=0; i < count; i++) {
-      $("#searched-cities-list").css("list-style-type", "none");
-      $("#searched-cities-list").append(`<a href="#" class="list-group-item" style="text-decoration: none; color: black;">
+      $("#citiesList").css("list-style-type", "none");
+      $("#citiesList").append(`<a href="#" class="list-group-item" style="text-decoration: none; color: black;">
       <li>${citiesList[i]}</li>
       </a>`);
     }
@@ -116,17 +116,16 @@ function searchCity(cityName){
     // constuct URL for city search
     console.log(cityName);
     let queryURL = apiUrl + "data/2.5/weather?q=" + cityName + "&appid=" + myApiKey;
-   
-    // run AJAX
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
+  
+    fetch(queryURL);
    
     // create object response for the data
     .then(function(response) {
-        let result = response;
-        console.log(result);
+        .then(function(response) { return response.json() }) 
+        .then(function(data) {
+
+        console.log(data);
+        })
         city = result.name.trim();
         //  
         //
@@ -146,9 +145,8 @@ function searchCity(cityName){
         let longitude = result.coord.lon;
         let UVIndexQueryUrl = apiUrl + "data/2.5/uvi?&appid=" + myApiKey + "&lat=" + latitude + "&lon=" + longitude;
 
-        $.ajax({
-            url: UVIndexQueryUrl,
-            method: "GET"
+        fetch(UVIndexQueryUrl);
+            
         })
 
         .then(function(response) {
@@ -157,10 +155,7 @@ function searchCity(cityName){
          
             let futureDayQueryUrl = apiUrl + "data/2.5/forecast/daily?q=" + city + "&appid=" + myApiKey + "&cnt=5";
 
-            $.ajax({
-            url: futureDayQueryUrl,
-            method: "GET"
-            })
+            fetch(futureDayQueryUrl)
 
             .then(function(response) {
                 let futureDayForecast = response.list;
@@ -192,7 +187,7 @@ function searchCity(cityName){
 
 function clearWeatherInfo() {
     $("#currentConditions").empty();
-    $("#card-deck-title").remove();
+    $("#cardHeader").remove();
     $(".card-deck").empty();
 }
 
@@ -237,10 +232,11 @@ $("#searchBtn").on("click", function(event) {
       if ($("ul#citiesList a").length >= 5) {
         ($("ul#citiesList a:eq(4)").remove());
       }
-      $("#citiesList").prepend(`<a href="#" class="list-group-item" style="text-decoration: none; color: black;">
+      $("#citiesList").prepend(`<a href="#" class="list-group-item" style="text-decoration: none; color: black; list-style-type: none">
       <li>${cityName}</li>
       </a>`);
     }
+    console.log(cityName);
 });
   
   $(document).on("click", ".list-group-item", function() {
@@ -252,19 +248,3 @@ $("#searchBtn").on("click", function(event) {
   
   
 
-  
-
-
-// let currentConditions = (event) => (
-//     let city = $("#searchInput").val();
-//     currentCity = $("#searchInput").val();
-//     let queryURL = apiUrl + "data/2.5/weather?q=" + city + "&units=imperial" + "&APPID=" + myApiKey;
-
-//     .then((response) => {
-//         return response.json();
-//     })
-
-//     .then(response) => {
-//     let currentWeatherIcon= apiUrl + "img/w/" + response.weather[0].icon + ".png";
-//     }
-// )
