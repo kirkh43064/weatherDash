@@ -21,21 +21,48 @@ let country = "";
 
 let searchedCities = [];
 
+let savedCitiesList = document.querySelector("#citiesList");
 
-let getSeachedCities = JSON.parse(localStorage.getItem("searchedCities"));
+function getSearchedCities() {
+  var citiesList = localStorage.getItem("searchedCities");
 
-if (getSeachedCities !== null) {
-    getSeachedCities.forEach(function(city) {city.toUpperCase();});
-    searchedCities = getSeachedCities;  
+  if (citiesList) {
+    searchedCities = JSON.parse(citiesList)  
+  }
+
+  displaySearchedCities();
 }
 
-$(document).ready(function(){
-  displayCities(searchedCities);
-  if (getSeachedCities !== null) {
-    let lastCity = searchedCities[0];
-    searchCity(lastCity);
+function updateSearchedCities(search) {
+  if (searchedCities.indexOf(search) !== -1) {
+    return;
   }
-});
+  searchedCities.push(search);
+
+  localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+}
+
+// $(document).ready(function(){
+//   displayCities(searchedCities);
+//   if (getSeachedCities !== null) {
+//     let lastCity = searchedCities[0];
+//     searchCity(lastCity);
+//   }
+// });
+
+function displaySearchedCities(citiesList) {
+    $("#searchedCities").removeClass("hide");
+    
+   
+    for (let i=searchedCities.length - 1; i <= 0; i--) {
+      let searchList = document.createElement("li");
+      searchList.classList.add("search_list");
+
+      searchList.setAttribute("data-search". searchedCities[i]);
+      searchList.textContent = searchedCities[i];
+      searchList.append(searchList);
+    }
+}
 
 function displayCurrentWeather() {
     let cardDiv = $("<div class='container border bg-light'>");
@@ -58,15 +85,15 @@ function displayCurrentWeather() {
 }
 
 function displayDayForeCast() { 
-    var imgEl = $("<img>").attr("src", iconurl);  
-    var cardEl = $("<div class='card'>").addClass("pl-1 bg-primary text-light");
-    var cardBlockDiv = $("<div>").attr("class", "card-block");
-    var cardTitleDiv = $("<div>").attr("class", "card-block");
-    var cardTitleHeader = $("<h6>").text(dateValue).addClass("pt-2");
-    var cardTextDiv = $("<div>").attr("class", "card-text");
-    var minTempEl = $("<p>").text("Min Temp: " + minTempF + " ºF").css("font-size", "0.5em");
-    var maxTempEl = $("<p>").text("Max Temp: " + maxTempF + " ºF").css("font-size", "0.5em");
-    var humidityEl = $("<p>").text("Humidity: " + dayhumidity + "%").css("font-size", "0.5em");
+    let imgEl = $("<img>").attr("src", iconurl);  
+    let cardEl = $("<div class='card'>").addClass("pl-1 bg-primary text-light");
+    let cardBlockDiv = $("<div>").attr("class", "card-block");
+    let cardTitleDiv = $("<div>").attr("class", "card-block");
+    let cardTitleHeader = $("<h6>").text(dateValue).addClass("pt-2");
+    let cardTextDiv = $("<div>").attr("class", "card-text");
+    let minTempEl = $("<p>").text("Min Temp: " + minTempF + " ºF").css("font-size", "0.5em");
+    let maxTempEl = $("<p>").text("Max Temp: " + maxTempF + " ºF").css("font-size", "0.5em");
+    let humidityEl = $("<p>").text("Humidity: " + dayhumidity + "%").css("font-size", "0.5em");
   
     cardTextDiv.append(imgEl);
     cardTextDiv.append(minTempEl);
@@ -77,18 +104,6 @@ function displayDayForeCast() {
     cardBlockDiv.append(cardTextDiv);
     cardEl.append(cardBlockDiv);
     $(".card-deck").append(cardEl);
-}
-
-function displayCities(citiesList) {
-    $("#searchedCities").removeClass("hide");
-    let count = 0;
-    citiesList.length > 5 ? count = 5 : count = citiesList.length
-    for (let i=0; i < count; i++) {
-      $("#citiesList").css("list-style-type", "none");
-      $("#citiesList").append(`<a href="#" class="list-group-item" style="text-decoration: none; color: black;">
-      <li>${citiesList[i]}</li>
-      </a>`);
-    }
 }
 
 function getColorCodeForUVIndex(uvIndex) {
@@ -120,8 +135,8 @@ function searchCity(cityName){
     fetch(queryURL);
    
     // create object response for the data
-    .then(function(response) {
-        .then(function(response) { return response.json() }) 
+    
+    .then(function(response) { return response.json() }) 
         .then(function(data) {
 
         console.log(data);
@@ -215,36 +230,36 @@ function resetVariables() {
 
 $("#searchBtn").on("click", function(event) {
     event.preventDefault();
-    clearWeatherInfo()
-    resetVariables()
+    //clearWeatherInfo()
+    //resetVariables()
     let cityName = $("searchInput").val().toUpperCase().trim();
     $("#searchInput").val("");
     searchCity(cityName);
   
     if (cityName !== ""&& searchedCities[0] !== cityName) {
       searchedCities.unshift(cityName);
-      localStorage.setItem("searched-cities", JSON.stringify(searchedCities));
-      if (searchedCities.length === 1) {
+      localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+      if (searchedCities.length => 1) {
         $("#searchedCities").removeClass("hide");
       }
       
-      console.log($("ul#citiesList a").length);
-      if ($("ul#citiesList a").length >= 5) {
-        ($("ul#citiesList a:eq(4)").remove());
+      console.log(cityName);
+      if (searchedCities.length >= 5) {
+        ($("#citiesList[4]").remove());
       }
       $("#citiesList").prepend(`<a href="#" class="list-group-item" style="text-decoration: none; color: black; list-style-type: none">
       <li>${cityName}</li>
       </a>`);
     }
-    console.log(cityName);
+    console.log(searchedCities);
 });
   
-  $(document).on("click", ".list-group-item", function() {
-    var cityName = $(this).text();
-    clearWeatherInfo();
-    resetVariables();
-    searchCity(cityName);
-  });
+//   $(document).on("click", "#citiesList", function() {
+//     var cityName = $(this).text();
+//     clearWeatherInfo();
+//     resetVariables();
+//     searchCity(cityName);
+//   });
   
   
 
